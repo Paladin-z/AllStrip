@@ -1,5 +1,6 @@
 # AllStrip
 PHP ascii stripper for scene releases
+
 Being too lazy to edit ascii art repeatedly this is an attempt at an intelligent ascii stripper. mostly aimed at scene groups.
 
 It is also intended to handle non-scene .nfo's in a useful way.
