@@ -1,6 +1,6 @@
  <?
 // Scene groups ascii stripper & formatter for www.torrentzilla.org
-// 19-07-2015 22:17
+// 27-07-2015 21:58
 //
 //Function to trim spaces from end of entire input
 function RightTrim($string) {
@@ -37,7 +37,8 @@ echo "<span style=\"color:#0000FF\">";
 echo "Paste the entire .nfo and click Remove Ascii.</p></span>";
 echo "<em>If it fails try viewing and pasting from DAMN NFO Viewer</em></p>";
 echo "<span style=\"color:#FF0000\">";
-echo "Comments/suggestions? paladinz @ inbox.com</span></p>";
+echo "Comments/suggestions? ";
+echo '<a href="https://github.com/Paladin-z/AllStrip" target="_blank">Github repository</a></span></p>';
 echo "<form method='post' action=''>"
  ."<textarea id='nfo' name='nfo' rows='15' cols='90'></textarea>"."<br>"
  ."<input type='submit' name='go' value='Remove Ascii' />"
@@ -185,6 +186,9 @@ keiso2:
   $cleaned = replace_content_inside_delimiters('[SHOUTOUTS.TO.OUR.FRIENDS.IN]', ' artcrew', '', $cleaned);
   $cleaned = StripArt($cleaned);
   $cleaned = str_replace('                     [SHOUTOUTS.TO.OUR.FRIENDS.IN] artcrew', '', $cleaned);
+  $cleaned = str_replace("PUBLISHER....", "\n\rPUBLISHER....", $cleaned);
+  $cleaned = str_replace("TUTORIAL", "\n\rTUTORIAL\n\r", $cleaned);
+  $cleaned = str_replace("Topics include:", "\n\rTopics include:\n\r", $cleaned);
 goto end;
 tastetv:
   $cleaned = GetStringBetween($cleaned, '   ....proudly presents....    ', ' :: GREETiNGS ::  ');
@@ -926,6 +930,9 @@ keiso:
 //  $cleaned = str_replace('ISO CHECKSUM..:',"\nISO CHECKSUM..:",$cleaned);
 //  $cleaned = str_replace('DISKCOUNT.....:',"\nDISKCOUNT.....:",$cleaned);
 //  $cleaned = str_replace('SAVED MONEY...:',"\nSAVED MONEY...:",$cleaned);
+  $cleaned = str_replace("PUBLISHER....", "\n\rPUBLISHER....", $cleaned);
+  $cleaned = str_replace("TUTORIAL", "\n\rTUTORIAL\n\r", $cleaned);
+  $cleaned = str_replace("Topics include:", "\n\rTopics include:\n\r", $cleaned);
 goto end;
 w4f:
   $cleaned = strstr($cleaned, 'Proudly Presents');
