@@ -1,6 +1,6 @@
- <?
+<?
 // Scene groups ascii stripper & formatter for www.torrentzilla.org
-// 27-07-2015 21:58
+// 10-08-2015 15:58
 //
 //Function to trim spaces from end of entire input
 function RightTrim($string) {
@@ -65,7 +65,7 @@ $pos = strpos($cleaned, 'We Dont Need Nothing, just more blonde and pink KuKaS')
 $pos = strpos($cleaned, '-CBFM'); if ($pos !== false) { goto cbfm; }
 $pos = strpos($cleaned, 'Team FiCO'); if ($pos !== false) { goto fico; }
 $pos = strpos($cleaned, '-STARLETS'); if ($pos !== false) { goto starlets; }
-$pos = strpos($cleaned, 'japhson@hushmail.com'); if ($pos !== false) { goto japhson; }
+$pos = strpos($cleaned, 'RIPPER.....  Japhson'); if ($pos !== false) { goto japhson; }
 $pos = strpos($cleaned, '-BiGGiESmaLLz'); if ($pos !== false) { goto biggiesmallz; }
 $pos = strpos($cleaned, '-CiNEFiLE'); if ($pos !== false) { goto cinefile; }
 $pos = strpos($cleaned, '-Ltu'); if ($pos !== false) { goto ltu; }
@@ -84,7 +84,7 @@ $pos = strpos($cleaned, '-iNGOT'); if ($pos !== false) { goto ingot; }
 $pos = strpos($cleaned, 'PORNOLATiON...'); if ($pos !== false) { goto pornolation; }
 $pos = strpos($cleaned, '-PRiNCE'); if ($pos !== false) { goto prince; }
 $pos = strpos($cleaned, '-DeBTViD'); if ($pos !== false) { goto debtvid; }
-$pos = strpos($cleaned, 'XCiTE'); if ($pos !== false) { goto xcite; }
+$pos = strpos($cleaned, '      XCiTE         '); if ($pos !== false) { goto xcite; }
 $pos = strpos($cleaned, '-WNN'); if ($pos !== false) { goto wnn; }
 $pos = strpos($cleaned, 'Very Bad Things Presents'); if ($pos !== false) { goto vbt; }
 $pos = strpos($cleaned, '-FaiLED'); if ($pos !== false) { goto failed; }
@@ -159,6 +159,10 @@ $pos = strpos($cleaned, '   C H i K A N i   P R E S E N T S   '); if ($pos !== f
 $pos = strpos($cleaned, '  TRiPS Present:'); if ($pos !== false) { goto trips; }
 $pos = strpos($cleaned, '     [SHOUTOUTS.TO.OUR.FRIENDS.IN]'); if ($pos !== false) { goto keiso2; }
 $pos = strpos($cleaned, '-SPINE'); if ($pos !== false) { goto spine; }
+$pos = strpos($cleaned, '-KaKa'); if ($pos !== false) { goto kaka; }
+$pos = strpos($cleaned, '-psychd'); if ($pos !== false) { goto psychd; }
+$pos = strpos($cleaned, '-NoRBiT'); if ($pos !== false) { goto norbit; }
+$pos = strpos($cleaned, ' |.|   | |  |  |  |  |__ --|   _|  -__|  _  |.  |   \|  -__|__ --|  |   _|  -__|__ --|   '); if ($pos !== false) { goto twisteddesires; }
 // Generic stripper to attempt to strip unmatched groups
   $cleaned = StripArt($cleaned);
 //  $cleaned = preg_replace('/[ ]*(\r{0,1}\n)[ ]*/', '$1', $cleaned);
@@ -178,6 +182,29 @@ goto end;
 //
 // Sections for specific groups, cleans then jumps to end of code
 //
+norbit:
+  $cleaned = GetStringBetween($cleaned, '  PRESENTS...', '  Greets:');
+  $cleaned = preg_replace("/[[:blank:]]+/",' ',$cleaned);
+  $cleaned = str_replace("RELEASE INFO:", "<br/>RELEASE INFO:", $cleaned);
+  $cleaned = str_replace("IMDb LINK", "<br/>IMDb LINK", $cleaned);
+  $cleaned = str_replace("PLOT / Storyline:", "<br/>PLOT / Storyline:", $cleaned);
+goto end;
+psychd:
+  $cleaned = replace_content_inside_delimiters('oooo              .o', '                                      ', '', $cleaned);
+  $cleaned = preg_replace("/[[:blank:]]+/",' ',$cleaned);
+  $cleaned = str_replace(' oooo .o', '', $cleaned);
+  $cleaned = str_replace('"Your worst inhibitions tend to psych you out in the end."', '', $cleaned);
+  goto end;
+twisteddesires:
+  $cleaned = replace_content_inside_delimiters('  _______          __       __            __ ______               __                     ', '                                                                                         ', '', $cleaned);
+  $cleaned = preg_replace("/[[:blank:]]+/",' ',$cleaned);
+  $cleaned = str_replace(' _______ __ __ __ ______ __', '', $cleaned);
+goto end;
+kaka:
+  $cleaned = GetStringBetween($cleaned, 'KaKa is A Key to Audio █ KaKa is A Key to Av', '   G R P    I N F O   ');
+  $cleaned = StripArt($cleaned);
+  $cleaned = preg_replace("/[[:blank:]]+/",' ',$cleaned);
+goto end;
 spine:
   $cleaned = GetStringBetween($cleaned, ' ^ ^ Presents ^ ^', '\"That\'s for fun like always\"');
   $cleaned = StripArt($cleaned);
@@ -210,8 +237,8 @@ feature:
   $cleaned = StripArt($cleaned);
 goto end;
 noscreens:
-  $cleaned = GetStringBetween($cleaned, '▀███▀             ▀ ▄▀                                   ▀▄ ▀       ░     ▀███▀', '▄█████████████████████████████████████████████████████████████████████████████▄');
-//  $cleaned = StripArt($cleaned);
+  $cleaned = GetStringBetween($cleaned, '▀███▀             ▀ ▄▀                                   ▀▄ ▀       ░     ▀███▀', '    AN0NYM0US - MELiTE - ROOR - VBT       ');
+  $cleaned = StripArt($cleaned);
   $cleaned = removelines($cleaned);
 goto end;
 melite:
@@ -456,11 +483,17 @@ fico:
   $cleaned = GetStringBetween($cleaned, "Team FiCO Final Coalition 2k8 Presents:", "Currently looking for:");
   $cleaned = preg_replace('/\n+\s+\n\s+/', "\n\n", $cleaned);
   $cleaned = str_replace("\n      ", "\n", $cleaned);
+  $cleaned = str_replace('Cast goes here', '', $cleaned);
+  $cleaned = str_replace('Plot goes here', '', $cleaned);
+  $cleaned = "[pre]" . $cleaned . "[/pre]";
 goto end;
 starlets:
   $cleaned = strstr($cleaned, 'RELEASE.DATE____'); 
   $cleaned = substr($cleaned, 0, strpos($cleaned, '  nEWs   '));  
   $cleaned = StripArt($cleaned);
+  $cleaned = str_replace("http", "<br/>http", $cleaned);
+  $cleaned = str_replace("Story :", "<br/>Story :", $cleaned);
+  $cleaned = str_replace("Cast :", "<br/>Cast :", $cleaned);
   $cleaned = str_replace('pLOt', ' ', $cleaned);
   $cleaned = removelines($cleaned);
   $cleaned = str_replace('_', ' ', $cleaned);
@@ -608,7 +641,7 @@ xcite:
   $cleaned = str_replace(' INFO ','',$cleaned); 
   $cleaned = str_replace(ARRAY('░','▒','▓','█','╔','╣','╠','═','╚','═','╝','╗','║','▄','╗','╩'), ' ', $cleaned);
   $cleaned = substr($cleaned, 0, strpos($cleaned, '         NOTE'));
-  $cleaned = removelines($cleaned);
+//  $cleaned = preg_replace("/[[:blank:]]+/"," ", $cleaned);
 goto end;
 wnn:
   $cleaned = StripArt($cleaned);
