@@ -1,6 +1,6 @@
 <?
 // Scene groups ascii stripper & formatter for www.torrentzilla.org
-// 10-08-2015 15:58
+// 11-08-2015 22:29
 //
 //Function to trim spaces from end of entire input
 function RightTrim($string) {
@@ -160,7 +160,7 @@ $pos = strpos($cleaned, '  TRiPS Present:'); if ($pos !== false) { goto trips; }
 $pos = strpos($cleaned, '     [SHOUTOUTS.TO.OUR.FRIENDS.IN]'); if ($pos !== false) { goto keiso2; }
 $pos = strpos($cleaned, '-SPINE'); if ($pos !== false) { goto spine; }
 $pos = strpos($cleaned, '-KaKa'); if ($pos !== false) { goto kaka; }
-$pos = strpos($cleaned, '-psychd'); if ($pos !== false) { goto psychd; }
+$pos = strpos($cleaned, '-PSYCHD'); if ($pos !== false) { goto psychd; }
 $pos = strpos($cleaned, '-NoRBiT'); if ($pos !== false) { goto norbit; }
 $pos = strpos($cleaned, ' |.|   | |  |  |  |  |__ --|   _|  -__|  _  |.  |   \|  -__|__ --|  |   _|  -__|__ --|   '); if ($pos !== false) { goto twisteddesires; }
 // Generic stripper to attempt to strip unmatched groups
@@ -190,10 +190,13 @@ norbit:
   $cleaned = str_replace("PLOT / Storyline:", "<br/>PLOT / Storyline:", $cleaned);
 goto end;
 psychd:
-  $cleaned = replace_content_inside_delimiters('oooo              .o', '                                      ', '', $cleaned);
-  $cleaned = preg_replace("/[[:blank:]]+/",' ',$cleaned);
-  $cleaned = str_replace(' oooo .o', '', $cleaned);
+  $cleaned = explode("\n", $cleaned);
+  for ($i = 1; $i <= 10; $i++) {
+  array_shift($cleaned);
+}  
+  $cleaned = implode("\n", $cleaned);
   $cleaned = str_replace('"Your worst inhibitions tend to psych you out in the end."', '', $cleaned);
+  $cleaned = preg_replace("/[[:blank:]]+/",' ',$cleaned);
   goto end;
 twisteddesires:
   $cleaned = replace_content_inside_delimiters('  _______          __       __            __ ______               __                     ', '                                                                                         ', '', $cleaned);
