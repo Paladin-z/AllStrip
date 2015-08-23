@@ -1,6 +1,7 @@
 <?
 // Scene groups ascii stripper & formatter for www.torrentzilla.org
-// 11-08-2015 22:29
+// Due to the nature of nfo's needing frequent updates there is no version numbering, rather I've opted to go by date & time of last edit to differentiate versions
+$version = "23-08-2015 15:00";
 //
 //Function to trim spaces from end of entire input
 function RightTrim($string) {
@@ -31,11 +32,10 @@ function removelines( $clean )
   return $clean;
 }
 header('Content-Type: text/html; charset=UTF-8');
-echo "<img src=\"wm.jpg\" border=0>"; 
-echo "<br>";
+echo "<img src=\"wm.jpg\" border=0><pre><b>".$version."</b></pre>";
 echo "<span style=\"color:#0000FF\">";
 echo "Paste the entire .nfo and click Remove Ascii.</p></span>";
-echo "<em>If it fails try viewing and pasting from DAMN NFO Viewer</em></p>";
+echo "If it fails try viewing and pasting from <b>DAMN NFO Viewer</b></p>";
 echo "<span style=\"color:#FF0000\">";
 echo "Comments/suggestions? ";
 echo '<a href="https://github.com/Paladin-z/AllStrip" target="_blank">Github repository</a></span></p>';
@@ -163,6 +163,8 @@ $pos = strpos($cleaned, '-KaKa'); if ($pos !== false) { goto kaka; }
 $pos = strpos($cleaned, '-PSYCHD'); if ($pos !== false) { goto psychd; }
 $pos = strpos($cleaned, '-NoRBiT'); if ($pos !== false) { goto norbit; }
 $pos = strpos($cleaned, ' |.|   | |  |  |  |  |__ --|   _|  -__|  _  |.  |   \|  -__|__ --|  |   _|  -__|__ --|   '); if ($pos !== false) { goto twisteddesires; }
+$pos = strpos($cleaned, '-DEV0'); if ($pos !== false) { goto dev0; }
+$pos = strpos($cleaned, '  ENJOY THiS NiCE PRE WiTH TORTiLLAS AND...'); if ($pos !== false) { goto guacamole; }
 // Generic stripper to attempt to strip unmatched groups
   $cleaned = StripArt($cleaned);
 //  $cleaned = preg_replace('/[ ]*(\r{0,1}\n)[ ]*/', '$1', $cleaned);
@@ -182,6 +184,24 @@ goto end;
 //
 // Sections for specific groups, cleans then jumps to end of code
 //
+guacamole:
+  $cleaned = GetStringBetween($cleaned, '... ', ' dip it!');
+  $cleaned = preg_replace('/\.{2,}/', '', $cleaned);
+  $cleaned = preg_replace("/[[:blank:]]+/",' ',$cleaned);
+goto end;
+dev0:
+  $cleaned = GetStringBetween($cleaned, '_______________ ', 'enjoy haters.');
+  $cleaned = str_replace("-.-.-.- ", "", $cleaned);
+  $cleaned = str_replace("-.-.-.-.- ", "", $cleaned);
+  $cleaned = str_replace("-.-.-.-.- ", "", $cleaned);
+  $cleaned = str_replace(".-.-.-.- ", "", $cleaned);
+  $cleaned = str_replace(".-.-.-.-.- ", "", $cleaned);
+  $cleaned = str_replace(".-.-.-.-.- ", "", $cleaned);
+  $cleaned = str_replace("'.'.'.'.'.'.'.' ", "", $cleaned);
+  $cleaned = str_replace("_______________ ", "", $cleaned);
+  $cleaned = str_replace(":.:.:.:.:.:.:.: ", "", $cleaned);
+  $cleaned = str_replace("                http", "<br/>http", $cleaned);
+goto end;
 norbit:
   $cleaned = GetStringBetween($cleaned, '  PRESENTS...', '  Greets:');
   $cleaned = preg_replace("/[[:blank:]]+/",' ',$cleaned);
@@ -199,9 +219,9 @@ psychd:
   $cleaned = preg_replace("/[[:blank:]]+/",' ',$cleaned);
   goto end;
 twisteddesires:
-  $cleaned = replace_content_inside_delimiters('  _______          __       __            __ ______               __                     ', '                                                                                         ', '', $cleaned);
+  $cleaned = GetStringBetween($cleaned, '                                                                           ', '    Looking for private .eu sites that are 500mbit or more, everything but NL!');
   $cleaned = preg_replace("/[[:blank:]]+/",' ',$cleaned);
-  $cleaned = str_replace(' _______ __ __ __ ______ __', '', $cleaned);
+//  $cleaned = str_replace(' _______ __ __ __ ______ __', '', $cleaned);
 goto end;
 kaka:
   $cleaned = GetStringBetween($cleaned, 'KaKa is A Key to Audio █ KaKa is A Key to Av', '   G R P    I N F O   ');
@@ -415,7 +435,8 @@ goto end;
 topcat:
     $cleaned = StripArt($cleaned);
   $cleaned = GetStringBetween($cleaned, "P R O U D L Y  P R E S E N T S", "V I V A  M E X I C O  C A B R O N E S");  
-  $cleaned = substr($cleaned, 0, strpos($cleaned, ''));
+    $cleaned = StripArt($cleaned);
+//  $cleaned = substr($cleaned, 0, strpos($cleaned, ''));
 //  $cleaned = removelines($cleaned);
 goto end;
 intensity:
