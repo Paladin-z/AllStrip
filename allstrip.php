@@ -1,7 +1,7 @@
 <?
 // Scene groups ascii stripper & formatter for www.torrentzilla.org
 // Due to the nature of nfo's needing frequent updates there is no version numbering, rather I've opted to go by date & time of last edit to differentiate versions
-$version = "03-09-2015 13:03";
+$version = "03-09-2015 21:26";
 //
 //Function to trim spaces from end of entire input
 function RightTrim($string) {
@@ -166,6 +166,7 @@ $pos = strpos($cleaned, '-NoRBiT'); if ($pos !== false) { goto norbit; }
 $pos = strpos($cleaned, ' |.|   | |  |  |  |  |__ --|   _|  -__|  _  |.  |   \|  -__|__ --|  |   _|  -__|__ --|   '); if ($pos !== false) { goto twisteddesires; }
 $pos = strpos($cleaned, '-DEV0'); if ($pos !== false) { goto dev0; }
 $pos = strpos($cleaned, '  ENJOY THiS NiCE PRE WiTH TORTiLLAS AND...'); if ($pos !== false) { goto guacamole; }
+$pos = strpos($cleaned, '-TattooLovers'); if ($pos !== false) { goto tattoolovers; }
 // Generic stripper to attempt to strip unmatched groups
   $cleaned = StripArt($cleaned);
 //  $cleaned = preg_replace('/[ ]*(\r{0,1}\n)[ ]*/', '$1', $cleaned);
@@ -185,6 +186,12 @@ goto end;
 //
 // Sections for specific groups, cleans then jumps to end of code
 //
+tattoolovers:
+  $cleaned = GetStringBetween($cleaned, '  |_________________|', 'Searching.For.: - Money Suppliers');
+  $cleaned = str_replace(' Link..........:', '<br/> Link..........:', $cleaned);
+  $cleaned = str_replace(' Release.Notes.:', '<br/> Release.Notes.:', $cleaned);
+  $cleaned = preg_replace("/[[:blank:]]+/",' ',$cleaned);
+goto end;
 guacamole:
   $cleaned = GetStringBetween($cleaned, '... ', ' dip it!');
   $cleaned = preg_replace('/\.{2,}/', '', $cleaned);
