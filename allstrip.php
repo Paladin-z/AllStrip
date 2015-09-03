@@ -1,7 +1,7 @@
 <?
 // Scene groups ascii stripper & formatter for www.torrentzilla.org
 // Due to the nature of nfo's needing frequent updates there is no version numbering, rather I've opted to go by date & time of last edit to differentiate versions
-$version = "23-08-2015 15:00";
+$version = "03-09-2015 01:17";
 //
 //Function to trim spaces from end of entire input
 function RightTrim($string) {
@@ -117,7 +117,8 @@ $pos = strpos($cleaned, '-ROVERS'); if ($pos !== false) { goto rovers; }
 $pos = strpos($cleaned, '-BATV'); if ($pos !== false) { goto batv; }
 $pos = strpos($cleaned, '-GECKOS'); if ($pos !== false) { goto geckos; }
 $pos = strpos($cleaned, 'ANiHLS.CREW.PROUDLY.PRESENTS'); if ($pos !== false) { goto anihls; }
-$pos = strpos($cleaned, 'AMIABLE proudly presents:'); if ($pos !== false) { goto amiable; }
+$pos = strpos($cleaned, '    AMIABLE proudly presents:'); if ($pos !== false) { goto amiable; }
+$pos = strpos($cleaned, '    AMIABLE presents:'); if ($pos !== false) { goto amiable; }
 $pos = strpos($cleaned, '  ELEISON  '); if ($pos !== false) { goto keiso; }
 $pos = strpos($cleaned, '-VeDeTT'); if ($pos !== false) { goto vedett; }
 $pos = strpos($cleaned, '-MiNDTHEGAP'); if ($pos !== false) { goto mindthegap; }
@@ -203,7 +204,7 @@ dev0:
   $cleaned = str_replace("                http", "<br/>http", $cleaned);
 goto end;
 norbit:
-  $cleaned = GetStringBetween($cleaned, '  PRESENTS...', '  Greets:');
+  $cleaned = GetStringBetween($cleaned, '  PRESENTS...', ':CONTACT iNFO:');
   $cleaned = preg_replace("/[[:blank:]]+/",' ',$cleaned);
   $cleaned = str_replace("RELEASE INFO:", "<br/>RELEASE INFO:", $cleaned);
   $cleaned = str_replace("IMDb LINK", "<br/>IMDb LINK", $cleaned);
@@ -1054,9 +1055,12 @@ anihls:
   $cleaned = preg_replace('/ANiHLS.CREW.PROUDLY.PRESENTS                             /', '', $cleaned);
 goto end;
 amiable:
-  $cleaned = strstr($cleaned, 'AMIABLE proudly presents:');
-  $cleaned = str_replace('AMIABLE proudly presents:', '', $cleaned);
-  $cleaned = str_replace("                                           Tomorrow's just your future yesterday! ", '', $cleaned);
+  $pos = strpos($cleaned, 'AMIABLE proudly presents:');
+  if ($pos === true) {
+  $cleaned = GetStringBetween($cleaned, "   AMIABLE proudly presents:", "Tomorrow\'s just your future yesterday!");
+  } else {
+  }
+  $cleaned = GetStringBetween($cleaned, "   AMIABLE presents:", "Tomorrow\'s just your future yesterday!");
   $cleaned = str_replace("\t", '      ', $cleaned);
   $lines = preg_split( "/\r\n|\r|\n/", $cleaned );  
   for ($start=0; $start < count($lines); $start++) {
@@ -1066,7 +1070,6 @@ amiable:
   $cleaned1 = $cleaned1.$lines[$start]."\r\n";
 //    echo "<pre>".$lines[$start]."</pre>";
   }         
-  $cleaned1 = str_replace("Tomorrow's just your future yesterday! ", '', $cleaned1);
   $cleaned = removelines($cleaned1);
 //  goto end1;
 end:
