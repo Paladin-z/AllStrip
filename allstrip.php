@@ -1,7 +1,7 @@
 <?
 // Scene groups ascii stripper & formatter for www.torrentzilla.org
 // Due to the nature of nfo's needing frequent updates there is no version numbering, rather I've opted to go by date & time of last edit to differentiate versions
-$version = "03-09-2015 01:17";
+$version = "03-09-2015 13:03";
 //
 //Function to trim spaces from end of entire input
 function RightTrim($string) {
@@ -157,7 +157,7 @@ $pos = strpos($cleaned, '-PHOBOS'); if ($pos !== false) { goto phobos; }
 $pos = strpos($cleaned, '-MELiTE'); if ($pos !== false) { goto melite; }
 $pos = strpos($cleaned, '-FEATURE'); if ($pos !== false) { goto feature; }
 $pos = strpos($cleaned, '   C H i K A N i   P R E S E N T S   '); if ($pos !== false) { goto chikani; }
-$pos = strpos($cleaned, '  TRiPS Present:'); if ($pos !== false) { goto trips; }
+$pos = strpos($cleaned, 'TRiPS PROUDLY PRESENTS......'); if ($pos !== false) { goto trips; }
 $pos = strpos($cleaned, '     [SHOUTOUTS.TO.OUR.FRIENDS.IN]'); if ($pos !== false) { goto keiso2; }
 $pos = strpos($cleaned, '-SPINE'); if ($pos !== false) { goto spine; }
 $pos = strpos($cleaned, '-KaKa'); if ($pos !== false) { goto kaka; }
@@ -246,8 +246,11 @@ tastetv:
   $cleaned = StripArt($cleaned);
 goto end;
 trips:
-  $cleaned = GetStringBetween($cleaned, '  TRiPS Present:', '   We want sources. We want sites. Find us.');
+  $cleaned = GetStringBetween($cleaned, 'TRiPS PROUDLY PRESENTS......', ' We want sources. We want sites. Find us. ');
   $cleaned = StripArt($cleaned);
+  $cleaned = str_replace("RELEASED: ", "<br/>RELEASED: ", $cleaned);
+  $cleaned = str_replace("AUDIO.BITRATE: ", "<br/> AUDIO.BITRATE: ", $cleaned);
+  $cleaned = str_replace("VIDEO.BITRATE: ", "<br/> VIDEO.BITRATE: ", $cleaned);
   $cleaned = preg_replace("/[[:blank:]]+/",' ',$cleaned);
 goto end;
 chikani:
