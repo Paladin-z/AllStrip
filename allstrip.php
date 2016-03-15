@@ -1,7 +1,7 @@
 <?
 // Scene groups ascii stripper & formatter for www.torrentzilla.org
 // Due to the nature of nfo's needing frequent updates there is no version numbering, rather I've opted to go by date & time of last edit to differentiate versions
-$version = "03-09-2015 21:26";
+$version = "14-03-2016 15:30";
 //
 //Function to trim spaces from end of entire input
 function RightTrim($string) {
@@ -1066,11 +1066,11 @@ anihls:
 goto end;
 amiable:
   $pos = strpos($cleaned, 'AMIABLE proudly presents:');
-  if ($pos === true) {
+  if ($pos !== false) {
   $cleaned = GetStringBetween($cleaned, "   AMIABLE proudly presents:", "Tomorrow\'s just your future yesterday!");
   } else {
-  }
   $cleaned = GetStringBetween($cleaned, "   AMIABLE presents:", "Tomorrow\'s just your future yesterday!");
+  }
   $cleaned = str_replace("\t", '      ', $cleaned);
   $lines = preg_split( "/\r\n|\r|\n/", $cleaned );  
   for ($start=0; $start < count($lines); $start++) {
